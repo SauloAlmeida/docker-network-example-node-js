@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  api:
+    build: 
+      context: ./api
+    container_name: api-node-network
+    ports:
+      - 3005:4005
+    environment:
+      - PORT=4005
+      - PROD=true
+    depends_on:
+      - redis
+    networks:
+      - net-app
+
+  redis:
+    image: redis/redis-stack-server:latest
+    networks:
+      - net-app
+    
+networks:
+  net-app:
+    driver: bridge
+
+# docker compose -f "docker-compose.yml" up -d --build
